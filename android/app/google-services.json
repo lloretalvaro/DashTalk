@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "486855339811",
+    "firebase_url": "https://dash-talk.firebaseio.com",
+    "project_id": "dash-talk",
+    "storage_bucket": "dash-talk.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:486855339811:android:9ab643fa1434206f626696",
+        "android_client_info": {
+          "package_name": "com.alvarolloret.dash_talk"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "486855339811-egvk2ba52bopclqc6jj57himsf277t17.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBxXI14uLdh3bwwYhkMAWwDn-EvnmSYYgI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "486855339811-egvk2ba52bopclqc6jj57himsf277t17.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
