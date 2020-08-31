@@ -1,12 +1,14 @@
 import 'package:dash_talk/constants.dart';
+import 'package:dash_talk/screens/chat_selection_screen.dart';
 import 'package:dash_talk/screens/login_screen.dart';
 import 'package:dash_talk/screens/registration_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:dash_talk/components/rounded_button.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class WelcomeScreen extends StatefulWidget {
-  static const id = '/welcome';
+  static const id = '/';
   @override
   _WelcomeScreenState createState() => _WelcomeScreenState();
 }
@@ -15,6 +17,7 @@ class _WelcomeScreenState extends State<WelcomeScreen>
     with SingleTickerProviderStateMixin {
   AnimationController controller;
   Animation animation;
+  FirebaseUser currentUserLogged;
 
   @override
   void initState() {
@@ -30,8 +33,9 @@ class _WelcomeScreenState extends State<WelcomeScreen>
     animation = ColorTween(begin: Colors.indigo, end: Colors.indigo[800])
         .animate(controller);
 
-    controller.addListener(() {
+    controller.addListener(() async {
       setState(() {});
+      await checkIfUserAlreadyLogged(context);
     });
   }
 
@@ -41,8 +45,28 @@ class _WelcomeScreenState extends State<WelcomeScreen>
     super.dispose();
   }
 
+  Future<void> checkIfUserAlreadyLogged(BuildContext context) async {
+    FirebaseAuth _auth = FirebaseAuth.instance;
+    currentUserLogged = await _auth.currentUser();
+
+    if (currentUserLogged != null) {
+      Navigator.pushNamed(context, ChatSelectionScreen.id);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    Widget animatedText = TypewriterAnimatedTextKit(
+      text: ['Dash Talk'],
+      speed: Duration(milliseconds: 300),
+      repeatForever: true,
+      textStyle: kAnimatedTextStyle,
+    );
+
+    Widget normalText = Text(
+      'Dash Talk',
+      style: kAnimatedTextStyle,
+    );
     return Scaffold(
       backgroundColor: animation.value,
       body: Padding(
@@ -57,19 +81,10 @@ class _WelcomeScreenState extends State<WelcomeScreen>
                   tag: 'logo',
                   child: Container(
                     child: Image.asset('images/logo.png'),
-                    height: 70,
+                    height: kLogoSizeWelcomeScreen,
                   ),
                 ),
-                TypewriterAnimatedTextKit(
-                  text: ['Dash Talk'],
-                  speed: Duration(milliseconds: 300),
-                  repeatForever: true,
-                  textStyle: TextStyle(
-                    color: Colors.white,
-                    fontSize: 40.0,
-                    fontWeight: FontWeight.w900,
-                  ),
-                ),
+                currentUserLogged == null ? animatedText : normalText,
               ],
             ),
             SizedBox(

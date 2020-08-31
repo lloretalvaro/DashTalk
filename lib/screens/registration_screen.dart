@@ -1,11 +1,12 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:dash_talk/components/rounded_button.dart';
-import 'package:dash_talk/screens/chat_screen.dart';
+
 import 'package:flutter/material.dart';
 import 'package:dash_talk/constants.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 import 'package:dash_talk/components/ErrorAlert.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dash_talk/screens/chat_selection_screen.dart';
 
 class RegistrationScreen extends StatefulWidget {
   static const id = '/registration';
@@ -27,14 +28,14 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
         TextField(
           onChanged: (value) {
             username = value;
-            print(username);
           },
-          style: TextStyle(color: Colors.white, fontWeight: FontWeight.w500),
+          style: kLoginRegistrationTextStyle,
           decoration: kTextFieldDecoration.copyWith(
               hintText: 'Your cool username',
               prefixIcon: Icon(
                 Icons.person,
-                color: Colors.greenAccent,
+                color: kIconColorLoginRegistration,
+                size: kIconSizeLoginRegistration,
               )),
         ),
         SizedBox(
@@ -45,12 +46,13 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
           onChanged: (value) {
             email = value;
           },
-          style: TextStyle(color: Colors.white, fontWeight: FontWeight.w500),
+          style: kLoginRegistrationTextStyle,
           decoration: kTextFieldDecoration.copyWith(
               hintText: 'Enter your email',
               prefixIcon: Icon(
                 Icons.email,
-                color: Colors.greenAccent,
+                color: kIconColorLoginRegistration,
+                size: kIconSizeLoginRegistration,
               )),
         ),
         SizedBox(
@@ -61,12 +63,13 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
           onChanged: (value) {
             password = value;
           },
-          style: TextStyle(color: Colors.white, fontWeight: FontWeight.w500),
+          style: kLoginRegistrationTextStyle,
           decoration: kTextFieldDecoration.copyWith(
               hintText: 'Enter your password',
               prefixIcon: Icon(
                 Icons.lock_outline,
-                color: Colors.greenAccent,
+                color: kIconColorLoginRegistration,
+                size: kIconSizeLoginRegistration,
               )),
         ),
         SizedBox(
@@ -77,12 +80,13 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
           onChanged: (value) {
             confirmedPassword = value;
           },
-          style: TextStyle(color: Colors.white, fontWeight: FontWeight.w500),
+          style: kLoginRegistrationTextStyle,
           decoration: kTextFieldDecoration.copyWith(
               hintText: 'Confirm your password',
               prefixIcon: Icon(
                 Icons.lock,
-                color: Colors.greenAccent,
+                color: kIconColorLoginRegistration,
+                size: kIconSizeLoginRegistration,
               )),
         ),
       ],
@@ -95,14 +99,15 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
           email: email, password: password);
 
       if (newUser != null) {
-        //TODO: SE PUEDE HACER MEJOR PARA GUARDAR EL NOMBRE DE USUARIO?
+        //-------------------------------------------------------------
+        // Current way to save the username into the database
         final user = await _auth.currentUser();
         if (user != null) {
           Firestore.instance.collection('users').document().setData(
               {'uid': user.uid, 'username': username, 'email': user.email});
         }
         //-------------------------------------------------------------
-        Navigator.pushNamed(context, ChatScreen.id);
+        Navigator.pushNamed(context, ChatSelectionScreen.id);
       }
     } catch (e) {
       setState(() {
@@ -148,7 +153,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                 child: Hero(
                   tag: 'logo',
                   child: Container(
-                    height: 175.0,
+                    height: kLogoSizeLoginRegistration,
                     child: Image.asset('images/logo.png'),
                   ),
                 ),

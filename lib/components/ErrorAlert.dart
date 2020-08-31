@@ -1,3 +1,4 @@
+import 'package:dash_talk/constants.dart';
 import 'package:flutter/material.dart';
 
 import 'PersonalisedCard.dart';
@@ -33,15 +34,12 @@ class ErrorAlert extends StatelessWidget {
                   child: Text(
                     messageError,
                     textAlign: TextAlign.center,
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 16,
-                        fontWeight: FontWeight.w700,
-                        decoration: TextDecoration.none),
+                    style: kErrorAlertTextStyle,
                   ),
                 ),
               ),
               RaisedButton(
+                elevation: 10,
                 color: Colors.yellow[300],
                 onPressed: () => Navigator.pop(context),
                 child: Text(

@@ -1,10 +1,11 @@
 import 'package:dash_talk/constants.dart';
-import 'package:dash_talk/screens/chat_screen.dart';
+
 import 'package:flutter/material.dart';
 import 'package:dash_talk/components/rounded_button.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 import 'package:dash_talk/components/ErrorAlert.dart';
+import 'package:dash_talk/screens/chat_selection_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   static const id = '/login';
@@ -26,12 +27,13 @@ class _LoginScreenState extends State<LoginScreen> {
           onChanged: (value) {
             email = value;
           },
-          style: TextStyle(color: Colors.white, fontWeight: FontWeight.w500),
+          style: kLoginRegistrationTextStyle,
           decoration: kTextFieldDecoration.copyWith(
               hintText: 'Enter your email',
               prefixIcon: Icon(
                 Icons.email,
-                color: Colors.greenAccent,
+                color: kIconColorLoginRegistration,
+                size: kIconSizeLoginRegistration,
               )),
         ),
         SizedBox(
@@ -42,12 +44,13 @@ class _LoginScreenState extends State<LoginScreen> {
           onChanged: (value) {
             password = value;
           },
-          style: TextStyle(color: Colors.white, fontWeight: FontWeight.w500),
+          style: kLoginRegistrationTextStyle,
           decoration: kTextFieldDecoration.copyWith(
               hintText: 'Enter your password',
               prefixIcon: Icon(
                 Icons.lock,
-                color: Colors.greenAccent,
+                color: kIconColorLoginRegistration,
+                size: kIconSizeLoginRegistration,
               )),
         ),
       ],
@@ -59,7 +62,7 @@ class _LoginScreenState extends State<LoginScreen> {
       final user = await _auth.signInWithEmailAndPassword(
           email: email, password: password);
       if (user != null) {
-        Navigator.pushNamed(context, ChatScreen.id);
+        Navigator.pushNamed(context, ChatSelectionScreen.id);
       }
     } catch (e) {
       setState(() {
@@ -110,7 +113,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 child: Hero(
                   tag: 'logo',
                   child: Container(
-                    height: 175.0,
+                    height: kLogoSizeLoginRegistration,
                     child: Image.asset('images/logo.png'),
                   ),
                 ),

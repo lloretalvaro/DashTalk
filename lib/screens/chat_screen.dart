@@ -1,7 +1,9 @@
+import 'package:dash_talk/screens/welcome_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:dash_talk/constants.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dash_talk/components/message_bubble.dart';
 
 final _firestore = Firestore.instance;
 FirebaseUser loggedInUser;
@@ -30,20 +32,34 @@ class _ChatScreenState extends State<ChatScreen> {
       final user = await _auth.currentUser();
       if (user != null) {
         loggedInUser = user;
-        //TODO: SE PUEDE HACER MEJOR PARA BUSCAR EL NOMBRE DE USUARIO?
-        final users = await _firestore.collection('users').getDocuments();
-        var userUID;
-        for (var itUser in users.documents) {
-          userUID = itUser.data['uid'];
-          if (userUID == user.uid) {
-            username = itUser.data['username'];
-          }
-        }
+        //-----------------------------------------------------------
+        // Getting the name of the user to display it on the messages
+        final queryUserSnapshot = await _firestore
+            .collection('users')
+            .where('uid', isEqualTo: user.uid)
+            .getDocuments();
+        final queryUserDocumentSnapshotList = queryUserSnapshot.documents;
+
+        //I write .first because the uid is unique for each user so the list should only have 1 element
+        username = queryUserDocumentSnapshotList.first.data['username'];
         //-----------------------------------------------------------
       }
     } catch (e) {
       print(e);
     }
+  }
+
+  void sendMessage() async {
+    messageTextController.clear();
+    DateTime currentDate = DateTime.now();
+    Timestamp timestampMessage = Timestamp.fromDate(currentDate);
+
+    _firestore.collection('messages').add({
+      'text': messageText,
+      'username': username,
+      'sender': loggedInUser.email,
+      'timeSent': timestampMessage
+    });
   }
 
   @override
@@ -56,17 +72,25 @@ class _ChatScreenState extends State<ChatScreen> {
       child: Scaffold(
         backgroundColor: Colors.transparent,
         appBar: AppBar(
-          leading: null,
+          leading: SizedBox(),
           actions: <Widget>[
             IconButton(
-                icon: Icon(Icons.close),
+                color: Colors.red,
+                icon: Icon(
+                  Icons.phonelink_erase,
+                  size: kIconSizeChatScreen,
+                ),
                 onPressed: () {
                   //Implement logout functionality
                   _auth.signOut();
-                  Navigator.pop(context);
+                  Navigator.pushNamed(context, WelcomeScreen.id);
                 }),
           ],
-          title: Text('DashTalk 🗣️'),
+          centerTitle: true,
+          title: Text(
+            'Global Chat | DashTalk 🗣️',
+            style: kAppbarTitleTextStyle,
+          ),
           backgroundColor: kAppBarColor,
         ),
         body: SafeArea(
@@ -82,11 +106,9 @@ class _ChatScreenState extends State<ChatScreen> {
                   children: <Widget>[
                     Expanded(
                       child: TextField(
-                        style: TextStyle(
-                            color: Colors.white, fontWeight: FontWeight.w500),
+                        style: kTextfieldMessageTextStyle,
                         controller: messageTextController,
                         onChanged: (value) {
-                          //Do something with the user input.
                           messageText = value;
                         },
                         decoration: kMessageTextFieldDecoration,
@@ -94,21 +116,11 @@ class _ChatScreenState extends State<ChatScreen> {
                     ),
                     FlatButton(
                       onPressed: () {
-                        messageTextController.clear();
-                        DateTime currentDate = DateTime.now();
-                        Timestamp timestampMessage =
-                            Timestamp.fromDate(currentDate);
-                        //Implement send functionality.
-                        _firestore.collection('messages').add({
-                          'text': messageText,
-                          'username': username,
-                          'sender': loggedInUser.email,
-                          'timeSent': timestampMessage
-                        });
+                        sendMessage();
                       },
                       child: Icon(
                         Icons.near_me,
-                        size: 30,
+                        size: kIconSizeChatScreen,
                         color: kSendMessageButtonColor,
                       ),
                     ),
@@ -159,49 +171,6 @@ class MessagesStream extends StatelessWidget {
           ),
         );
       },
-    );
-  }
-}
-
-class MessageBubble extends StatelessWidget {
-  MessageBubble({this.text, this.userName, this.isCurrentUser});
-
-  final String text;
-  final String userName;
-  final bool isCurrentUser;
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(10.0),
-      child: Column(
-        crossAxisAlignment:
-            isCurrentUser ? CrossAxisAlignment.end : CrossAxisAlignment.start,
-        children: <Widget>[
-          Text(
-            '$userName',
-            style: TextStyle(color: Colors.grey[600], fontSize: 13),
-          ),
-          SizedBox(height: 1),
-          Material(
-            borderRadius: isCurrentUser
-                ? kBorderRadiusCurrentUser
-                : kBorderRadiusOtherUser,
-            elevation: 8,
-            color: isCurrentUser ? Colors.indigoAccent : Colors.deepPurple,
-            child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
-              child: Text(
-                '$text',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 17,
-                ),
-              ),
-            ),
-          ),
-        ],
-      ),
     );
   }
 }
