@@ -9,7 +9,10 @@ final _firestore = Firestore.instance;
 FirebaseUser loggedInUser;
 
 class ChatScreen extends StatefulWidget {
+  ChatScreen({@required this.title, @required this.collectionName});
   static const id = '/chat';
+  final String title;
+  final String collectionName;
 
   @override
   _ChatScreenState createState() => _ChatScreenState();
@@ -20,10 +23,16 @@ class _ChatScreenState extends State<ChatScreen> {
   String messageText;
   final messageTextController = TextEditingController();
   String username;
+  String appbarTitle;
+  String tableName;
 
   @override
   void initState() {
     super.initState();
+
+    appbarTitle = widget.title;
+    tableName = widget.collectionName;
+
     getCurrentUser();
   }
 
@@ -54,7 +63,7 @@ class _ChatScreenState extends State<ChatScreen> {
     DateTime currentDate = DateTime.now();
     Timestamp timestampMessage = Timestamp.fromDate(currentDate);
 
-    _firestore.collection('messages').add({
+    _firestore.collection(tableName).add({
       'text': messageText,
       'username': username,
       'sender': loggedInUser.email,
@@ -88,7 +97,7 @@ class _ChatScreenState extends State<ChatScreen> {
           ],
           centerTitle: true,
           title: Text(
-            'Global Chat | DashTalk 🗣️',
+            appbarTitle,
             style: kAppbarTitleTextStyle,
           ),
           backgroundColor: kAppBarColor,
@@ -98,7 +107,9 @@ class _ChatScreenState extends State<ChatScreen> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
-              MessagesStream(),
+              MessagesStream(
+                tableName: tableName,
+              ),
               Container(
                 decoration: kMessageContainerDecoration,
                 child: Row(
@@ -136,10 +147,13 @@ class _ChatScreenState extends State<ChatScreen> {
 }
 
 class MessagesStream extends StatelessWidget {
+  MessagesStream({@required this.tableName});
+
+  final String tableName;
   @override
   Widget build(BuildContext context) {
     return StreamBuilder(
-      stream: _firestore.collection('messages').orderBy('timeSent').snapshots(),
+      stream: _firestore.collection(tableName).orderBy('timeSent').snapshots(),
       builder: (context, snapshot) {
         if (!snapshot.hasData) {
           return Center(

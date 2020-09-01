@@ -1,14 +1,16 @@
+import 'package:dash_talk/screens/chat_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:dash_talk/constants.dart';
 
 class UserTile extends StatelessWidget {
-  UserTile(
-      {@required this.username,
-      @required this.email,
-      @required this.screenToNavigate});
+  UserTile({
+    @required this.username,
+    @required this.email,
+    @required this.collectionName,
+  });
   final String username;
   final String email;
-  final String screenToNavigate;
+  final String collectionName;
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +33,15 @@ class UserTile extends StatelessWidget {
           email,
           style: kEmailChatSelectorTextStyle,
         ),
-        onTap: () => Navigator.pushNamed(context, screenToNavigate),
+        onTap: () => Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => ChatScreen(
+              title: username,
+              collectionName: collectionName,
+            ),
+          ),
+        ),
       ),
     );
   }

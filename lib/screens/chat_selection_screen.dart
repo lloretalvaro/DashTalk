@@ -1,4 +1,3 @@
-import 'package:dash_talk/screens/chat_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:dash_talk/constants.dart';
 import 'package:dash_talk/screens/welcome_screen.dart';
@@ -71,6 +70,14 @@ class _ChatSelectionScreenState extends State<ChatSelectionScreen> {
 }
 
 class UsersStream extends StatelessWidget {
+  int getASCIIvalue(String text) {
+    int valueString = 0;
+    for (int i = 0; i < text.length; i++) {
+      valueString += text.codeUnitAt(i);
+    }
+    return valueString;
+  }
+
   @override
   Widget build(BuildContext context) {
     return StreamBuilder(
@@ -86,11 +93,13 @@ class UsersStream extends StatelessWidget {
         final users = snapshot.data.documents.reversed;
         List<UserTile> userSelectors = [
           UserTile(
-              username: 'Global Chat  |  DashTalk 🗣️',
-              email: 'Join and talk with all users!',
-              screenToNavigate: ChatScreen.id)
+            username: 'Global Chat | DashTalk 🗣️',
+            email: 'Join and talk with all users!',
+            collectionName: 'messages',
+          )
         ];
 
+        int asciiValueLoggedInUserUid = getASCIIvalue(loggedInUser.uid);
         for (var user in users) {
           final userUsername = user.data['username'];
           final userEmail = user.data['email'];
@@ -98,10 +107,19 @@ class UsersStream extends StatelessWidget {
           UserTile userTile;
 
           if (loggedInUser.uid != userUid) {
+            String collectionName = 'messages';
+            if (asciiValueLoggedInUserUid >= getASCIIvalue(userUid)) {
+              collectionName += loggedInUser.uid;
+              collectionName += userUid;
+            } else {
+              collectionName += userUid;
+              collectionName += loggedInUser.uid;
+            }
+
             userTile = UserTile(
               username: userUsername,
               email: userEmail,
-              screenToNavigate: ChatScreen.id,
+              collectionName: collectionName,
             );
             userSelectors.add(userTile);
           }
