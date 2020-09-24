@@ -16,7 +16,7 @@ const kErrorAlertTextStyle = TextStyle(
 const kMessageTextFieldDecoration = InputDecoration(
   contentPadding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
   hintText: 'Type here...',
-  hintStyle: TextStyle(color: Colors.grey, fontSize: 22),
+  hintStyle: TextStyle(color: Colors.grey, fontSize: 18),
   border: InputBorder.none,
 );
 
@@ -35,8 +35,7 @@ const kTextMessageTextStyle = TextStyle(
   color: Colors.white,
   fontSize: 24,
 );
-const double kLogoSizeWelcomeScreen = 95.0;
-const double kLogoSizeLoginRegistration = 210.0;
+
 const double kIconSizeLoginRegistration = 29.0;
 const Color kIconColorLoginRegistration = Colors.greenAccent;
 
@@ -56,13 +55,13 @@ const kEmailChatSelectorTextStyle = TextStyle(
   color: Color(0xFFBDBDBD),
   fontSize: 20,
 );
-
+const kHintTextStyle = TextStyle(
+  color: Color(0xFFBDBDBD),
+  fontSize: 23,
+);
 const kTextFieldDecoration = InputDecoration(
   hintText: 'Enter your value',
-  hintStyle: TextStyle(
-    color: Color(0xFFBDBDBD),
-    fontSize: 23,
-  ),
+  hintStyle: kHintTextStyle,
   contentPadding: EdgeInsets.symmetric(vertical: 15.0, horizontal: 25.0),
   border: OutlineInputBorder(
     borderRadius: BorderRadius.all(Radius.circular(18.0)),
@@ -97,5 +96,3 @@ const kBorderRadiusOtherUser = BorderRadius.only(
 const kAppbarTitleTextStyle = TextStyle(fontSize: 25, letterSpacing: 1);
 const kTextfieldMessageTextStyle =
     TextStyle(color: Colors.white, fontSize: 22, fontWeight: FontWeight.w500);
-
-const double kIconSizeChatScreen = 31;

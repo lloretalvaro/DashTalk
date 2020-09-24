@@ -12,7 +12,12 @@ class ErrorAlert extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: Container(
-        margin: EdgeInsets.symmetric(vertical: 200, horizontal: 50),
+        //MediaQuery.of(context).size.height / 5,
+        // MediaQuery.of(context).size.height / 3,
+        margin: EdgeInsets.symmetric(
+          vertical: MediaQuery.of(context).size.height / 5,
+          horizontal: MediaQuery.of(context).size.width / 20,
+        ),
         child: PersonalisedCard(
           cardColor1: Colors.indigo[400],
           cardColor2: Colors.indigo[600],
@@ -34,7 +39,8 @@ class ErrorAlert extends StatelessWidget {
                   child: Text(
                     messageError,
                     textAlign: TextAlign.center,
-                    style: kErrorAlertTextStyle,
+                    style: kErrorAlertTextStyle.copyWith(
+                        fontSize: MediaQuery.of(context).size.width / 18),
                   ),
                 ),
               ),

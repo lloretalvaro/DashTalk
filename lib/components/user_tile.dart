@@ -27,11 +27,13 @@ class UserTile extends StatelessWidget {
         ),
         title: Text(
           username,
-          style: kUsernameChatSelectorTextStyle,
+          style: kUsernameChatSelectorTextStyle.copyWith(
+              fontSize: MediaQuery.of(context).size.width / 18),
         ),
         subtitle: Text(
           email,
-          style: kEmailChatSelectorTextStyle,
+          style: kEmailChatSelectorTextStyle.copyWith(
+              fontSize: MediaQuery.of(context).size.width / 22),
         ),
         onTap: () => Navigator.push(
           context,

@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
 
 class RoundedButton extends StatelessWidget {
-  const RoundedButton({@required this.onPressed, this.title, this.color});
+  const RoundedButton(
+      {@required this.onPressed,
+      this.title,
+      this.color,
+      this.isRegistrationScreen});
 
   final Function onPressed;
   final String title;
   final Color color;
+  final bool isRegistrationScreen;
 
   @override
   Widget build(BuildContext context) {
@@ -18,11 +23,15 @@ class RoundedButton extends StatelessWidget {
         child: MaterialButton(
           onPressed: onPressed,
           minWidth: 200.0,
-          height: 59.0,
+          height: MediaQuery.of(context).size.height / 15,
           child: Text(
             title,
             style: TextStyle(
-                fontSize: 21, color: Colors.white, fontWeight: FontWeight.w700),
+                fontSize: isRegistrationScreen
+                    ? MediaQuery.of(context).size.width / 17
+                    : 21,
+                color: Colors.white,
+                fontWeight: FontWeight.w700),
           ),
         ),
       ),

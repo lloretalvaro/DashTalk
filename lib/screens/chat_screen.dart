@@ -87,7 +87,7 @@ class _ChatScreenState extends State<ChatScreen> {
                 color: Colors.red,
                 icon: Icon(
                   Icons.phonelink_erase,
-                  size: kIconSizeChatScreen,
+                  size: MediaQuery.of(context).size.width / 13,
                 ),
                 onPressed: () {
                   //Implement logout functionality
@@ -98,7 +98,8 @@ class _ChatScreenState extends State<ChatScreen> {
           centerTitle: true,
           title: Text(
             appbarTitle,
-            style: kAppbarTitleTextStyle,
+            style: kAppbarTitleTextStyle.copyWith(
+                fontSize: MediaQuery.of(context).size.width / 16),
           ),
           backgroundColor: kAppBarColor,
         ),
@@ -117,7 +118,9 @@ class _ChatScreenState extends State<ChatScreen> {
                   children: <Widget>[
                     Expanded(
                       child: TextField(
-                        style: kTextfieldMessageTextStyle,
+                        style: kTextfieldMessageTextStyle.copyWith(
+                          fontSize: MediaQuery.of(context).size.width / 18,
+                        ),
                         controller: messageTextController,
                         onChanged: (value) {
                           messageText = value;
@@ -131,7 +134,7 @@ class _ChatScreenState extends State<ChatScreen> {
                       },
                       child: Icon(
                         Icons.near_me,
-                        size: kIconSizeChatScreen,
+                        size: MediaQuery.of(context).size.width / 13,
                         color: kSendMessageButtonColor,
                       ),
                     ),
@@ -180,7 +183,7 @@ class MessagesStream extends StatelessWidget {
         return Expanded(
           child: ListView(
             reverse: true,
-            padding: EdgeInsets.symmetric(vertical: 15, horizontal: 10),
+            padding: EdgeInsets.symmetric(vertical: 5, horizontal: 5),
             children: messageBubbles,
           ),
         );

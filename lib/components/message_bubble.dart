@@ -11,14 +11,15 @@ class MessageBubble extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(10.0),
+      padding: const EdgeInsets.all(7.0),
       child: Column(
         crossAxisAlignment:
             isCurrentUser ? CrossAxisAlignment.end : CrossAxisAlignment.start,
         children: <Widget>[
           Text(
             '$userName',
-            style: kUsernameMessageTextStyle,
+            style: kUsernameMessageTextStyle.copyWith(
+                fontSize: MediaQuery.of(context).size.width / 30),
           ),
           SizedBox(height: 1.5),
           Material(
@@ -28,10 +29,11 @@ class MessageBubble extends StatelessWidget {
             elevation: 8,
             color: isCurrentUser ? Colors.indigoAccent : Colors.deepPurple,
             child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
+              padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 13),
               child: Text(
                 '$text',
-                style: kTextMessageTextStyle,
+                style: kTextMessageTextStyle.copyWith(
+                    fontSize: MediaQuery.of(context).size.width / 21),
               ),
             ),
           ),

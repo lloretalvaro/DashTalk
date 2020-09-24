@@ -44,7 +44,7 @@ class _ChatSelectionScreenState extends State<ChatSelectionScreen> {
               color: Colors.red,
               icon: Icon(
                 Icons.phonelink_erase,
-                size: 31,
+                size: MediaQuery.of(context).size.width / 13,
               ),
               onPressed: () {
                 //Implement logout functionality
@@ -55,7 +55,7 @@ class _ChatSelectionScreenState extends State<ChatSelectionScreen> {
         centerTitle: true,
         title: Text(
           'DashTalk 🗣️',
-          style: TextStyle(fontSize: 25),
+          style: TextStyle(fontSize: MediaQuery.of(context).size.width / 15),
         ),
         backgroundColor: kAppBarColor,
       ),
@@ -93,7 +93,7 @@ class UsersStream extends StatelessWidget {
         final users = snapshot.data.documents.reversed;
         List<UserTile> userSelectors = [
           UserTile(
-            username: 'Global Chat | DashTalk 🗣️',
+            username: 'Global Chat 🗣️',
             email: 'Join and talk with all users!',
             collectionName: 'messages',
           )

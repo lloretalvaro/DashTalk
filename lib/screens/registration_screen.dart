@@ -29,9 +29,13 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
           onChanged: (value) {
             username = value;
           },
-          style: kLoginRegistrationTextStyle,
+          style: kLoginRegistrationTextStyle.copyWith(
+              fontSize: MediaQuery.of(context).size.width / 17),
           decoration: kTextFieldDecoration.copyWith(
               hintText: 'Your cool username',
+              hintStyle: kHintTextStyle.copyWith(
+                fontSize: MediaQuery.of(context).size.width / 20,
+              ),
               prefixIcon: Icon(
                 Icons.person,
                 color: kIconColorLoginRegistration,
@@ -46,9 +50,13 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
           onChanged: (value) {
             email = value;
           },
-          style: kLoginRegistrationTextStyle,
+          style: kLoginRegistrationTextStyle.copyWith(
+              fontSize: MediaQuery.of(context).size.width / 17),
           decoration: kTextFieldDecoration.copyWith(
-              hintText: 'Enter your email',
+              hintText: 'Your email',
+              hintStyle: kHintTextStyle.copyWith(
+                fontSize: MediaQuery.of(context).size.width / 20,
+              ),
               prefixIcon: Icon(
                 Icons.email,
                 color: kIconColorLoginRegistration,
@@ -63,9 +71,13 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
           onChanged: (value) {
             password = value;
           },
-          style: kLoginRegistrationTextStyle,
+          style: kLoginRegistrationTextStyle.copyWith(
+              fontSize: MediaQuery.of(context).size.width / 17),
           decoration: kTextFieldDecoration.copyWith(
-              hintText: 'Enter your password',
+              hintText: 'Your new password',
+              hintStyle: kHintTextStyle.copyWith(
+                fontSize: MediaQuery.of(context).size.width / 20,
+              ),
               prefixIcon: Icon(
                 Icons.lock_outline,
                 color: kIconColorLoginRegistration,
@@ -80,9 +92,13 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
           onChanged: (value) {
             confirmedPassword = value;
           },
-          style: kLoginRegistrationTextStyle,
+          style: kLoginRegistrationTextStyle.copyWith(
+              fontSize: MediaQuery.of(context).size.width / 17),
           decoration: kTextFieldDecoration.copyWith(
-              hintText: 'Confirm your password',
+              hintText: 'Confirm password',
+              hintStyle: kHintTextStyle.copyWith(
+                fontSize: MediaQuery.of(context).size.width / 20,
+              ),
               prefixIcon: Icon(
                 Icons.lock,
                 color: kIconColorLoginRegistration,
@@ -153,7 +169,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                 child: Hero(
                   tag: 'logo',
                   child: Container(
-                    height: kLogoSizeLoginRegistration,
+                    height: MediaQuery.of(context).size.height / 5,
                     child: Image.asset('images/logo.png'),
                   ),
                 ),
@@ -165,32 +181,35 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
               SizedBox(
                 height: 24.0,
               ),
-              RoundedButton(
-                title: 'Register',
-                color: kRegisterColor,
-                onPressed: () async {
-                  if (username != null) {
-                    if (email != null && password != null) {
-                      if (password == confirmedPassword) {
-                        setState(() {
-                          showSpinner = true;
-                        });
-                        registerUser();
-                        setState(() {
-                          showSpinner = false;
-                        });
+              Expanded(
+                child: RoundedButton(
+                  isRegistrationScreen: true,
+                  title: 'Register',
+                  color: kRegisterColor,
+                  onPressed: () async {
+                    if (username != null) {
+                      if (email != null && password != null) {
+                        if (password == confirmedPassword) {
+                          setState(() {
+                            showSpinner = true;
+                          });
+                          registerUser();
+                          setState(() {
+                            showSpinner = false;
+                          });
+                        } else {
+                          showErrorAlert(
+                              'Your password confirmation is not correct');
+                        }
                       } else {
                         showErrorAlert(
-                            'Your password confirmation is not correct');
+                            'Please don\'t leave your email/password blank');
                       }
                     } else {
-                      showErrorAlert(
-                          'Please don\'t leave your email/password blank');
+                      showErrorAlert('Please don\'t leave your username empty');
                     }
-                  } else {
-                    showErrorAlert('Please don\'t leave your username empty');
-                  }
-                },
+                  },
+                ),
               ),
             ],
           ),

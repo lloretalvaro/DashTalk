@@ -57,15 +57,17 @@ class _WelcomeScreenState extends State<WelcomeScreen>
   @override
   Widget build(BuildContext context) {
     Widget animatedText = TypewriterAnimatedTextKit(
-      text: ['Dash Talk'],
+      text: ['DashTalk'],
       speed: Duration(milliseconds: 300),
       repeatForever: true,
-      textStyle: kAnimatedTextStyle,
+      textStyle: kAnimatedTextStyle.copyWith(
+          fontSize: MediaQuery.of(context).size.width / 10),
     );
 
     Widget normalText = Text(
-      'Dash Talk',
-      style: kAnimatedTextStyle,
+      'DashTalk',
+      style: kAnimatedTextStyle.copyWith(
+          fontSize: MediaQuery.of(context).size.width / 10),
     );
     return Scaffold(
       backgroundColor: animation.value,
@@ -81,7 +83,7 @@ class _WelcomeScreenState extends State<WelcomeScreen>
                   tag: 'logo',
                   child: Container(
                     child: Image.asset('images/logo.png'),
-                    height: kLogoSizeWelcomeScreen,
+                    height: MediaQuery.of(context).size.height / 8,
                   ),
                 ),
                 currentUserLogged == null ? animatedText : normalText,
@@ -91,6 +93,7 @@ class _WelcomeScreenState extends State<WelcomeScreen>
               height: 48.0,
             ),
             RoundedButton(
+              isRegistrationScreen: false,
               title: 'Log In',
               color: kLoginColor,
               onPressed: () {
@@ -99,6 +102,7 @@ class _WelcomeScreenState extends State<WelcomeScreen>
               },
             ),
             RoundedButton(
+              isRegistrationScreen: false,
               title: 'Register',
               color: kRegisterColor,
               onPressed: () {

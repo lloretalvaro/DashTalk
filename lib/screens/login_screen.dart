@@ -29,7 +29,10 @@ class _LoginScreenState extends State<LoginScreen> {
           },
           style: kLoginRegistrationTextStyle,
           decoration: kTextFieldDecoration.copyWith(
-              hintText: 'Enter your email',
+              hintText: 'Email',
+              hintStyle: kHintTextStyle.copyWith(
+                fontSize: MediaQuery.of(context).size.width / 20,
+              ),
               prefixIcon: Icon(
                 Icons.email,
                 color: kIconColorLoginRegistration,
@@ -46,7 +49,10 @@ class _LoginScreenState extends State<LoginScreen> {
           },
           style: kLoginRegistrationTextStyle,
           decoration: kTextFieldDecoration.copyWith(
-              hintText: 'Enter your password',
+              hintText: 'Password',
+              hintStyle: kHintTextStyle.copyWith(
+                fontSize: MediaQuery.of(context).size.width / 20,
+              ),
               prefixIcon: Icon(
                 Icons.lock,
                 color: kIconColorLoginRegistration,
@@ -113,7 +119,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 child: Hero(
                   tag: 'logo',
                   child: Container(
-                    height: kLogoSizeLoginRegistration,
+                    height: MediaQuery.of(context).size.height / 5,
                     child: Image.asset('images/logo.png'),
                   ),
                 ),
@@ -126,6 +132,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 height: 24.0,
               ),
               RoundedButton(
+                isRegistrationScreen: false,
                 title: 'Log in',
                 color: kLoginColor,
                 onPressed: () async {
