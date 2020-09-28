@@ -12,8 +12,6 @@ class ErrorAlert extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: Container(
-        //MediaQuery.of(context).size.height / 5,
-        // MediaQuery.of(context).size.height / 3,
         margin: EdgeInsets.symmetric(
           vertical: MediaQuery.of(context).size.height / 5,
           horizontal: MediaQuery.of(context).size.width / 20,
