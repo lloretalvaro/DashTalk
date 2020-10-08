@@ -124,10 +124,12 @@ class UsersStream extends StatelessWidget {
             userSelectors.add(userTile);
           }
         }
-        return Expanded(
-          child: ListView(
-            padding: EdgeInsets.symmetric(vertical: 7, horizontal: 7),
-            children: userSelectors,
+        return Container(
+          child: SizedBox.expand(
+            child: ListView(
+              padding: EdgeInsets.symmetric(vertical: 7, horizontal: 7),
+              children: userSelectors,
+            ),
           ),
         );
       },
