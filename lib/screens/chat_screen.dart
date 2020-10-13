@@ -130,7 +130,10 @@ class _ChatScreenState extends State<ChatScreen> {
                     ),
                     FlatButton(
                       onPressed: () {
-                        sendMessage();
+                        if (messageText != null && messageText != '') {
+                          sendMessage();
+                        }
+                        messageText = '';
                       },
                       child: Icon(
                         Icons.near_me,
